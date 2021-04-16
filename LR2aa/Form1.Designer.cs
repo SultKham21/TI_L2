@@ -39,7 +39,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.textBox_d = new System.Windows.Forms.TextBox();
-            this.textBox_n = new System.Windows.Forms.TextBox();
+            this.textBox_r = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // shiphr
@@ -77,15 +77,15 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "p =";
             // 
-            // textBox_p
+            // tbn_p
             // 
             this.tbn_p.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.tbn_p.Location = new System.Drawing.Point(61, 40);
             this.tbn_p.Margin = new System.Windows.Forms.Padding(4);
-            this.tbn_p.Name = "textBox_p";
+            this.tbn_p.Name = "tbn_p";
             this.tbn_p.Size = new System.Drawing.Size(152, 30);
             this.tbn_p.TabIndex = 4;
-            this.tbn_p.Text = "101";
+            this.tbn_p.Text = "103";
             this.tbn_p.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label2
@@ -99,15 +99,15 @@
             this.label2.TabIndex = 5;
             this.label2.Text = "q =";
             // 
-            // textBox_q
+            // tbn_q
             // 
             this.tbn_q.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.tbn_q.Location = new System.Drawing.Point(61, 77);
             this.tbn_q.Margin = new System.Windows.Forms.Padding(4);
-            this.tbn_q.Name = "textBox_q";
+            this.tbn_q.Name = "tbn_q";
             this.tbn_q.Size = new System.Drawing.Size(152, 30);
             this.tbn_q.TabIndex = 6;
-            this.tbn_q.Text = "103";
+            this.tbn_q.Text = "101";
             this.tbn_q.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label3
@@ -139,9 +139,9 @@
             this.label5.Location = new System.Drawing.Point(240, 81);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(40, 25);
+            this.label5.Size = new System.Drawing.Size(35, 25);
             this.label5.TabIndex = 9;
-            this.label5.Text = "n =";
+            this.label5.Text = "r =";
             // 
             // label6
             // 
@@ -164,22 +164,22 @@
             this.textBox_d.TabIndex = 11;
             this.textBox_d.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBox_n
+            // textBox_r
             // 
-            this.textBox_n.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.textBox_n.Location = new System.Drawing.Point(289, 77);
-            this.textBox_n.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox_n.Name = "textBox_n";
-            this.textBox_n.Size = new System.Drawing.Size(151, 30);
-            this.textBox_n.TabIndex = 12;
-            this.textBox_n.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox_r.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.textBox_r.Location = new System.Drawing.Point(289, 77);
+            this.textBox_r.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox_r.Name = "textBox_r";
+            this.textBox_r.Size = new System.Drawing.Size(151, 30);
+            this.textBox_r.TabIndex = 12;
+            this.textBox_r.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(453, 169);
-            this.Controls.Add(this.textBox_n);
+            this.Controls.Add(this.textBox_r);
             this.Controls.Add(this.textBox_d);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -212,7 +212,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox textBox_d;
-        private System.Windows.Forms.TextBox textBox_n;
+        private System.Windows.Forms.TextBox textBox_r;
     }
 }
 

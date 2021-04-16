@@ -40,11 +40,19 @@ namespace protect_inf_LR1
 
                     stre.Close();
                     strin = strin.ToUpper();
-                    long n = p * q;
+                    long r = p * q;
                     long fi = (p - 1) * (q - 1);
-                    long d = CalcD(fi);
-                    long e = CalcE(d, fi);
-                    List<string> result = RSAE(strin, e, n);
+                    long e = CalcE(fi);
+
+                    TempValuesGcd temp = CalcDEuclid(fi, e);
+                    long d = temp.Y;
+                    if (d < 0)
+                    {
+                        d += fi;
+                    }
+
+
+                    List<string> result = RSAE(strin, d, r);
                     StreamWriter stwr = new StreamWriter("on.txt");
 
                     foreach (string item in result)
@@ -52,7 +60,7 @@ namespace protect_inf_LR1
                     stwr.Close();
 
                     textBox_d.Text = d.ToString();
-                    textBox_n.Text = n.ToString();
+                    textBox_r.Text = r.ToString();
 
                     Process.Start("on.txt");
                 }
@@ -65,10 +73,10 @@ namespace protect_inf_LR1
 
         private void buttonDeshiphr(object sender, EventArgs e)
         {
-            if ((textBox_d.Text.Length > 0) && (textBox_n.Text.Length > 0))
+            if ((textBox_d.Text.Length > 0) && (textBox_r.Text.Length > 0))
             {
                 long d = Convert.ToInt64(textBox_d.Text);
-                long n = Convert.ToInt64(textBox_n.Text);
+                long r = Convert.ToInt64(textBox_r.Text);
 
                 List<string> input = new List<string>();
 
@@ -81,7 +89,7 @@ namespace protect_inf_LR1
 
                 sr.Close();
 
-                string result = RSAD(input, d, n);
+                string result = RSAD(input, d, r);
 
                 StreamWriter sw = new StreamWriter("ow.txt");
                 sw.WriteLine(result);
@@ -93,27 +101,27 @@ namespace protect_inf_LR1
                 MessageBox.Show("you must enter secret key");
         }
 
-        private bool CheckSimple(long n)
+        private bool CheckSimple(long pq)
         {
-            if (n < 2)
+            if (pq < 2)
                 return false;
 
-            if (n == 2)
+            if (pq == 2)
                 return true;
 
-            for (long i = 2; i < n; i++)
-                if (n % i == 0)
+            for (long i = 2; i < pq; i++)
+                if (pq % i == 0)
                     return false;
 
             return true;
         }
 
-        private long CalcD(long al)
+        private long CalcE(long fip)
         {
-            long d = al - 1;
+            long d = fip - 1;
 
-            for (long i = 2; i <= al; i++)
-                if ((al % i == 0) && (d % i == 0))
+            for (long i = 2; i <= fip; i++)
+                if ((fip % i == 0) && (d % i == 0))
                 {
                     d--;
                     i = 1;
@@ -122,31 +130,34 @@ namespace protect_inf_LR1
             return d;
         }
 
-        private long CalcE(long d, long al)
+        private TempValuesGcd CalcDEuclid(long a, long b)
         {
-            long e = 10;
 
-            while (true)
+            if (b == 0)
             {
-                if ((e * d) % al == 1)
-                    break;
-                else
-                    e++;
+                return new TempValuesGcd(b, 1, 0);
+            }
+            else
+            {
+                var tmp = CalcDEuclid(b, a % b);
+                var d = tmp.D;
+                var y = tmp.X - tmp.Y * (a / b);
+                var x = tmp.Y;
+                return new TempValuesGcd(d, x, y);
             }
 
-            return e;
         }
 
         private List<string> RSAE(string s, long eg, long n)
         {
             List<string> result = new List<string>();
-            BigInteger big;
+            BigInteger big, big1;
 
             for (int i = 0; i < s.Length; i++)
             {
                 int index = Array.IndexOf(characters, s[i]);
                 big = new BigInteger(index);
-                big = BigInteger.Pow(big, (int)eg);
+                big = Power(big, (int)eg, (int)n);
                 BigInteger nt = new BigInteger((int)n);
                 big = big % nt;
                 result.Add(big.ToString());
@@ -155,7 +166,19 @@ namespace protect_inf_LR1
             return result;
         }
 
-       
+        private static BigInteger Power(BigInteger x, long y, long rp)
+        {
+            if (y == 0) return 1;
+
+            var z = Power(x, y / 2, rp);
+
+            if (y % 2 == 0)
+                return (z * z) % rp;
+            else
+                return (x * z * z) % rp;
+        }
+
+
 
         private string RSAD(List<string> input, long d, long n)
         {
@@ -165,7 +188,7 @@ namespace protect_inf_LR1
             foreach (string item in input)
             {
                 big = new BigInteger(Convert.ToDouble(item));
-                big = BigInteger.Pow(big, (int)d);
+                big = Power(big, (int)d, (int)n);
                 BigInteger nt = new BigInteger((int)n);
                 big = big % nt;
                 int index = Convert.ToInt32(big.ToString());
@@ -174,5 +197,20 @@ namespace protect_inf_LR1
 
             return result;
         }
+
+        private class TempValuesGcd
+        {
+            public TempValuesGcd(long d, long x, long y)
+            {
+                D = d;
+                X = x;
+                Y = y;
+            }
+
+            public long D { get; }
+            public long X { get; }
+            public long Y { get; }
+        }
+
     }
 }
