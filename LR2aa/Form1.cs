@@ -93,6 +93,50 @@ namespace protect_inf_LR1
                 MessageBox.Show("you must enter secret key");
         }
 
+        private bool CheckSimple(long n)
+        {
+            if (n < 2)
+                return false;
+
+            if (n == 2)
+                return true;
+
+            for (long i = 2; i < n; i++)
+                if (n % i == 0)
+                    return false;
+
+            return true;
+        }
+
+        private long CalcD(long al)
+        {
+            long d = al - 1;
+
+            for (long i = 2; i <= al; i++)
+                if ((al % i == 0) && (d % i == 0))
+                {
+                    d--;
+                    i = 1;
+                }
+
+            return d;
+        }
+
+        private long CalcE(long d, long al)
+        {
+            long e = 10;
+
+            while (true)
+            {
+                if ((e * d) % al == 1)
+                    break;
+                else
+                    e++;
+            }
+
+            return e;
+        }
+
         private List<string> RSAE(string s, long eg, long n)
         {
             List<string> result = new List<string>();
@@ -111,19 +155,7 @@ namespace protect_inf_LR1
             return result;
         }
 
-        private long CalcD(long al)
-        {
-            long d = al - 1;
-
-            for (long i = 2; i <= al; i++)
-                if ((al % i == 0) && (d % i == 0))
-                {
-                    d--;
-                    i = 1;
-                }
-
-            return d;
-        }
+       
 
         private string RSAD(List<string> input, long d, long n)
         {
@@ -141,36 +173,6 @@ namespace protect_inf_LR1
             }
 
             return result;
-        }
-
-        private long CalcE(long d, long al)
-        {
-            long e = 10;
-
-            while (true)
-            {
-                if ((e * d) % al == 1)
-                    break;
-                else
-                    e++;
-            }
-
-            return e;
-        }
-
-        private bool CheckSimple(long n)
-        {
-            if (n < 2)
-                return false;
-
-            if (n == 2)
-                return true;
-
-            for (long i = 2; i < n; i++)
-                if (n % i == 0)
-                    return false;
-
-            return true;
         }
     }
 }
