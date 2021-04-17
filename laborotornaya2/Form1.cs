@@ -162,6 +162,18 @@ namespace protect_inf_LR1
 
         }
 
+        private static BigInteger FastExp(BigInteger x, long y, long rp)
+        {
+            if (y == 0) return 1;
+
+            var z = FastExp(x, y / 2, rp);
+
+            if (y % 2 == 0)
+                return (z * z) % rp;
+            else
+                return (x * z * z) % rp;
+        }
+
         private List<string> Encr(string s, long eg, long n)
         {
             List<string> result = new List<string>();
@@ -171,7 +183,7 @@ namespace protect_inf_LR1
             {
                 int index = Array.IndexOf(letsymb, s[i]);
                 big = new BigInteger(index);
-                big = Power(big, (int)eg, (int)n);
+                big = FastExp(big, (int)eg, (int)n);
                 BigInteger nt = new BigInteger((int)n);
                 big = big % nt;
                 result.Add(big.ToString());
@@ -179,20 +191,6 @@ namespace protect_inf_LR1
 
             return result;
         }
-
-        private static BigInteger Power(BigInteger x, long y, long rp)
-        {
-            if (y == 0) return 1;
-
-            var z = Power(x, y / 2, rp);
-
-            if (y % 2 == 0)
-                return (z * z) % rp;
-            else
-                return (x * z * z) % rp;
-        }
-
-
 
         private string Decr(List<string> input, long d, long n)
         {
@@ -202,7 +200,7 @@ namespace protect_inf_LR1
             foreach (string item in input)
             {
                 big = new BigInteger(Convert.ToDouble(item));
-                big = Power(big, (int)d, (int)n);
+                big = FastExp(big, (int)d, (int)n);
                 BigInteger nt = new BigInteger((int)n);
                 big = big % nt;
                 int index = Convert.ToInt32(big.ToString());
