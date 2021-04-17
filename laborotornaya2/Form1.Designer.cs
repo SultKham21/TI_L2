@@ -52,7 +52,7 @@
             this.shiphr.TabIndex = 1;
             this.shiphr.Text = "Encrypt";
             this.shiphr.UseVisualStyleBackColor = true;
-            this.shiphr.Click += new System.EventHandler(this.buttonShifr_Click);
+            this.shiphr.Click += new System.EventHandler(this.buttonEncr_Click);
             // 
             // buttonDecipher
             // 
@@ -64,7 +64,7 @@
             this.buttonDecipher.TabIndex = 2;
             this.buttonDecipher.Text = "Decrypt";
             this.buttonDecipher.UseVisualStyleBackColor = true;
-            this.buttonDecipher.Click += new System.EventHandler(this.buttonDeshiphr);
+            this.buttonDecipher.Click += new System.EventHandler(this.buttonDecr);
             // 
             // label1
             // 

@@ -9,26 +9,40 @@ namespace protect_inf_LR1
 {
     public partial class Form1 : Form
     {
-        char[] characters = new char[] { 'A', 'B', 'C', 'D', 'E', 
+        char[] letsymb = new char[] { 'A', 'B', 'C', 'D', 'E', 
                                          'F', 'G', 'H', 'I', 'J',
                                          'K', 'L', 'M', 'N', 'O', 
                                          'P', 'Q', 'R', 'S', 'T', 
                                          'U', 'V', 'W', 'X', 'Y', 
                                          'Z', ' '};
 
+        private class TmpVal
+        {
+            public TmpVal(long d, long x, long y)
+            {
+                D = d;
+                X = x;
+                Y = y;
+            }
+
+            public long D { get; }
+            public long X { get; }
+            public long Y { get; }
+        }
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void buttonShifr_Click(object sender, EventArgs evnt)
+        private void buttonEncr_Click(object sender, EventArgs evnt)
         {
             if ((tbn_p.Text.Length > 0) && (tbn_q.Text.Length > 0))
             {
                 long p = Convert.ToInt64(tbn_p.Text);
                 long q = Convert.ToInt64(tbn_q.Text);
 
-                if (CheckSimple(p) && CheckSimple(q))
+                if (IsSimp(p) && IsSimp(q))
                 {
                     string strin = "";
                     StreamReader stre = new StreamReader("ent.txt");
@@ -44,7 +58,7 @@ namespace protect_inf_LR1
                     long fi = (p - 1) * (q - 1);
                     long e = CalcE(fi);
 
-                    TempValuesGcd temp = CalcDEuclid(fi, e);
+                    TmpVal temp = CalcDEuclid(fi, e);
                     long d = temp.Y;
                     if (d < 0)
                     {
@@ -52,7 +66,7 @@ namespace protect_inf_LR1
                     }
 
 
-                    List<string> result = RSAE(strin, d, r);
+                    List<string> result = Encr(strin, d, r);
                     StreamWriter stwr = new StreamWriter("on.txt");
 
                     foreach (string item in result)
@@ -71,7 +85,7 @@ namespace protect_inf_LR1
                 MessageBox.Show("no p and q");
         }
 
-        private void buttonDeshiphr(object sender, EventArgs e)
+        private void buttonDecr(object sender, EventArgs e)
         {
             if ((textBox_d.Text.Length > 0) && (textBox_r.Text.Length > 0))
             {
@@ -89,7 +103,7 @@ namespace protect_inf_LR1
 
                 sr.Close();
 
-                string result = RSAD(input, d, r);
+                string result = Decr(input, d, r);
 
                 StreamWriter sw = new StreamWriter("ow.txt");
                 sw.WriteLine(result);
@@ -101,7 +115,7 @@ namespace protect_inf_LR1
                 MessageBox.Show("you must enter secret key");
         }
 
-        private bool CheckSimple(long pq)
+        private bool IsSimp(long pq)
         {
             if (pq < 2)
                 return false;
@@ -130,12 +144,12 @@ namespace protect_inf_LR1
             return d;
         }
 
-        private TempValuesGcd CalcDEuclid(long a, long b)
+        private TmpVal CalcDEuclid(long a, long b)
         {
 
             if (b == 0)
             {
-                return new TempValuesGcd(b, 1, 0);
+                return new TmpVal(b, 1, 0);
             }
             else
             {
@@ -143,19 +157,19 @@ namespace protect_inf_LR1
                 var d = tmp.D;
                 var y = tmp.X - tmp.Y * (a / b);
                 var x = tmp.Y;
-                return new TempValuesGcd(d, x, y);
+                return new TmpVal(d, x, y);
             }
 
         }
 
-        private List<string> RSAE(string s, long eg, long n)
+        private List<string> Encr(string s, long eg, long n)
         {
             List<string> result = new List<string>();
             BigInteger big, big1;
 
             for (int i = 0; i < s.Length; i++)
             {
-                int index = Array.IndexOf(characters, s[i]);
+                int index = Array.IndexOf(letsymb, s[i]);
                 big = new BigInteger(index);
                 big = Power(big, (int)eg, (int)n);
                 BigInteger nt = new BigInteger((int)n);
@@ -180,7 +194,7 @@ namespace protect_inf_LR1
 
 
 
-        private string RSAD(List<string> input, long d, long n)
+        private string Decr(List<string> input, long d, long n)
         {
             string result = "";
             BigInteger big;
@@ -192,25 +206,13 @@ namespace protect_inf_LR1
                 BigInteger nt = new BigInteger((int)n);
                 big = big % nt;
                 int index = Convert.ToInt32(big.ToString());
-                result += characters[index].ToString();
+                result += letsymb[index].ToString();
             }
 
             return result;
         }
 
-        private class TempValuesGcd
-        {
-            public TempValuesGcd(long d, long x, long y)
-            {
-                D = d;
-                X = x;
-                Y = y;
-            }
-
-            public long D { get; }
-            public long X { get; }
-            public long Y { get; }
-        }
+        
 
     }
 }
